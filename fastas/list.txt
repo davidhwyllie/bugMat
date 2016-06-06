@@ -1,0 +1,3 @@
+01 test/s1.fasta
+02 test/s2.fasta
+03 test/s3.fasta

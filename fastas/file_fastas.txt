@@ -1,0 +1,4 @@
+n1 fastas/sample1.fasta
+n2 fastas/sample2.fasta
+n3 fastas/sample3.fasta
+n4 fastas/sample4.fasta
