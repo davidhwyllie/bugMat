@@ -39,11 +39,11 @@ or
 ## Running BugMat
   > ./bugmat --threads 8 --samples file.txt --output folder
 
-###Options:
+### Options:
 *  --h, --help                          show this help message and exit
 *  --t, --threads numthreads            number of threads for openmp library
 *  --s, --sample samplefoldername       path to set of samples sequences
 *  --o, --output folder                 folder name for the output files
 
-###Example:
+### Example:
 ./bugmat -t 8 -s fastas/file_fastas.txt -o fastas
