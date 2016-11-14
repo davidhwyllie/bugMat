@@ -4,10 +4,10 @@ Using nucleotide sequence information, stored in a series of FASTA files, BugMat
 ## Requirements
 BugMat is a C++ command line executable.
 
-It can be compiled on Linux (using gcc) and on Windows (using MinGW).
+It can be compiled on Linux and on Windows.
 
-It has few dependencies; it uses the C++ Standard Library 14.
-OpenMP is required for parallisation.  
+It uses the C++ Standard Library 14 and the zlib library.
+OpenMP is required for parallelisation.  
 
 ## Performance
 BugMat builds in-memory distance matrices.  Using 16 cores on a machine equipped with Intel Xeon E5-2680-v2 Processors (2.8GHz):
@@ -15,7 +15,7 @@ BugMat builds in-memory distance matrices.  Using 16 cores on a machine equipped
 * Building a matrix from 4,000 _M. tuberculosis_ genomes (4.4 million bases per sequence) required 20GB RAM, and took about 12,000 seconds.
 
 ### Prepare the computer
-First of all you should check if the system has gcc compiler and openmp library, the examples are in linux not windows
+First of all you should check if the system has gcc compiler and openmp library, the examples are in linux not windows:
 1- Check openMP library: echo | cpp -fopenmp -dM | grep -i open
 2- Check gcc compiler: gcc --version ## get compiler version
 
@@ -38,6 +38,15 @@ or
 
 ## Running BugMat
   > ./bugmat --threads 8 --samples file.txt --output folder
+
+### Compilation on Windows
+We have successfully compiled BugMat on windows using both DevC++ and MS Visual Studio 15.
+We have tested this on Windows 10/8/7 systems.
+Running the software on Windows 7 is complicated by a a known issue with zlib 1.2.8 on Windows 7 (but not later systems) which is described, and can be addressed as described, here:
+http://www.tannerhelland.com/5076/compile-zlib-winapi-wapi-stdcall/
+https://sourceforge.net/p/globalplatform/code/HEAD/tree/trunk/zlib-1.2.8/
+https://sourceforge.net/projects/globalplatform/files/zLib/
+
 
 ### Options:
 *  --h, --help                          show this help message and exit

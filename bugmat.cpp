@@ -21,7 +21,7 @@
 #include <zlib.h>
 #include <ctime>
 
-#define version "v2016-04-15"
+#define version "v2016-11-14a"
 
 using namespace std;
 
@@ -92,6 +92,13 @@ void read_paths(){
 string read_sample_compressed(string id,string path){
 	char *cstr = new char[path.length() + 1];
 	strcpy(cstr, path.c_str());
+
+	int isExisting = PathFileExists(cstr);	
+	if(isExisting != 1){
+		cout << "Could not find file " << path << endl;
+		cout << "The progrogramme terminated.";
+		exit(0);
+	}
 
 	string sample;
 	gzFile myfile;
