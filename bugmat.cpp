@@ -89,16 +89,11 @@ void read_paths(){
 	myfile.close();
 }
 
+
 string read_sample_compressed(string id,string path){
 	char *cstr = new char[path.length() + 1];
 	strcpy(cstr, path.c_str());
 
-	int isExisting = PathFileExists(cstr);	
-	if(isExisting != 1){
-		cout << "Could not find file " << path << endl;
-		cout << "The progrogramme terminated.";
-		exit(0);
-	}
 
 	string sample;
 	gzFile myfile;

@@ -19,6 +19,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+
 #define version "v2016-11-16"
 
 using namespace std;
@@ -93,10 +94,40 @@ string read_sample(string id,string path){
 	strcpy(cstr, path.c_str());
 	
 	string sample;
-	ifstream myfile;
-	myfile.open(cstr);
-	myfile >> sample;
+	string line;
+	int sampleLength;
+	int nLinesRead;
+	sampleLength=0;
+	nLinesRead=0;
+	cout << "Trying to open file " << cstr << endl;
 
+	ifstream myfile (cstr);
+	if (myfile.is_open())
+  	{
+	    while ( getline (myfile,line) )
+	    {
+	      nLinesRead+=1;
+	      if (nLinesRead==1) 
+		  {
+		  	/* Print out the defline; */
+		  	cout << "Ignoring defline" << endl;
+	      	cout << line << endl;
+		  } 
+		  else 
+		  {	  
+	      	sampleLength+=line.size();
+		  	sample.append(line);
+		  }
+	    }
+    myfile.close();
+  	}
+	  else 
+	{
+	  cout << "Unable to open file" << cstr << endl << "Review the contents and paths in the input file relative to the current working directory." << endl; 
+	  exit(1);
+	}
+	myfile.close();
+	cout << "Read file successfully.  File length was " << sampleLength << endl;
 	return sample;
 }
 
