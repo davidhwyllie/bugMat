@@ -56,3 +56,32 @@ https://sourceforge.net/projects/globalplatform/files/zLib/
 
 ### Example:
 ./bugmat -t 8 -s fastas/file_fastas.txt -o fastas
+
+
+### Expected output
+BugMat reports whether each of four stages it undertakes succeeded (0) or failed (1).
+If all four stages report zero (success), then the output will be written into the --output folder.
+
+```
+# succeeds
+> ./bugmat -t 8 -s fastas/file_fastas.txt -o fastas
+read&clean,process,write,total
+0, 0, 0, 0
+
+# fails, as no output directory  is provided
+> ./bugmat -t 8 -s fastas/file_fastas.txt 
+read&clean,process,write,total
+0, 0, 1, 1
+```
+
+### output files
+Three output files are produced.
+
+* alignment_samples.fa  
+This is a fasta file in which only variant bases are included.
+
+* bugmat_snp.txt
+The reports the pairwise SNP distances between all sequences analysed.
+
+* bugmat_count_bases.txt
+This is a text representation of the model used by the software to represent the positions of variation.
