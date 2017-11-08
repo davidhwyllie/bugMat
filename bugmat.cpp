@@ -94,11 +94,13 @@ string read_sample_compressed(string id,string path){
 	char *cstr = new char[path.length() + 1];
 	strcpy(cstr, path.c_str());
 
-
 	string sample;
 	gzFile myfile;
 	myfile = gzopen(cstr, "r");
-
+	if(myfile == NULL){
+		return "NULL";
+	}
+	
 	char buf[1] {'0'};
 	//get line 1
 	while(buf[0] != '\n'){
@@ -484,26 +486,43 @@ int main (int argc, char **argv)
 	double totaladd = 0;
 	double totalread = 0;
 
-	//write head for output time
-	cout << "read&clean,process,write,total" << endl;
-
 	//loop for each fasta filea
 	time(&beginloop);
 	
-	#pragma omp parallel for num_threads(num_threads)
+	string read_msg = "ok";
+	#pragma omp parallel for num_threads(num_threads) shared(read_msg)
 	for(int i=0; i<sample_path_list.size(); i++){
 		string id = sample_path_list[i][0];
 		string path = sample_path_list[i][1];
 
 		//read fasta file
 		string sample = read_sample_compressed(id, path); 
-
-		//insert sample and create indexes
-		#pragma omp critical
-		add_sample(id,&sample);
-		#pragma omp critical
-		sample.clear();
+		//catch read file error
+		if(sample.compare("NULL") == 0){
+			#pragma omp critical
+			{
+				read_msg = "problem with file (id: "+id+", path: "+path+")";
+			}
+			#pragma omp cancel for
+		}else{
+			//insert sample and create indexes
+			#pragma omp critical
+			add_sample(id,&sample);
+			#pragma omp critical
+			sample.clear();
+		}
 	}
+	
+	//write head for output time
+	cout << "read files process: " << read_msg << endl;
+	
+	if(read_msg.compare("ok") != 0){
+		return 0;
+	}
+	
+	//write head for output time
+	cout << "read&clean,process,write,total" << endl;
+	
 	time(&endloop);
 	double totalloop = difftime (endloop,beginloop);
 	cout << totalloop << ", ";
@@ -513,21 +532,21 @@ int main (int argc, char **argv)
 	time(&begin);	
 	process_samples();	
 	time(&end);
-        total += difftime (end,begin);
-        cout << difftime (end,begin) << ", ";
+    total += difftime (end,begin);
+    cout << difftime (end,begin) << ", ";
 
 	//write samples to multifastafile
-        time(&begin);
+    time(&begin);
 	write_samples();
 	//write distance matrix
 	write_matrix();
 	//write count_bases
 	write_count_bases();
-        time(&end);
-        total += difftime (end,begin);
-        cout << difftime (end,begin) << ", ";
+    time(&end);
+    total += difftime (end,begin);
+    cout << difftime (end,begin) << ", ";
 
-        cout << total << endl;
-
+    cout << total << endl;
+	
 	return 0;
 }
