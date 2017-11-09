@@ -1,6 +1,11 @@
 # Abstract
 Using nucleotide sequence information, stored in a series of FASTA files, BugMat generates a pairwise distance matrix.  
 
+The software is designed for, has been extensively tested with, mapped data from bacterial genome sequencing.
+
+It was produced as part of the [Modernising Medical Microbiology](http://modmedmicro.nsms.ox.ac.uk/) initiative, who use it, as do [Public Health England](https://www.gov.uk/government/organisations/public-health-england).
+
+
 ## Requirements
 BugMat is a C++ command line executable.
 
@@ -8,6 +13,11 @@ It can be compiled on Linux and on Windows.
 
 It uses the C++ Standard Library 14 and the zlib library.
 OpenMP is required for parallelisation.  
+
+## Publication
+A publication describing this work is in BMC Bioinformatics:
+*BugMat and FindNeighbour: command line and server applications for investigating bacterial relatedness*
+DOI : 10.1186/s12859-017-1907-2 (https://dx.doi.org/10.1186/s12859-017-1907-2)
 
 ## Performance
 BugMat builds in-memory distance matrices.  Using 16 cores on a machine equipped with Intel Xeon E5-2680-v2 Processors (2.8GHz):
@@ -72,12 +82,13 @@ https://sourceforge.net/projects/globalplatform/files/zLib/
 
 
 ### Expected output
-BugMat reports whether each of four stages it undertakes succeeded (0) or failed (1).
-If all four stages report zero (success), then the output will be written into the --output folder.
+Output will be written into the --output folder.
+The four numbers output correspond to the number of milliseconds taken for each of the four phases (read&clean, process, write, total).
 
 ```
 # succeeds
 > ./bugmat -t 8 -s fastas/file_fastas.txt -o fastas
+read files process: OK
 read&clean,process,write,total
 0, 0, 0, 0
 
@@ -85,6 +96,11 @@ read&clean,process,write,total
 > ./bugmat -t 8 -s fastas/file_fastas.txt 
 read&clean,process,write,total
 0, 0, 1, 1
+
+# fails if file names in file_fastas.txt do not exist on the file system
+./bugmat -t 8 -s -s filelist.txt -o output
+read files process: problem with file (id: p_nose, path: nose_p.fasta)
+
 ```
 
 ### output files
