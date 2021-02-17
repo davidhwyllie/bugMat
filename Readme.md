@@ -52,7 +52,7 @@ http://openmp.org/wp/openmp-compilers/
 https://huseyincakir.wordpress.com/2009/11/05/installing-openmp-in-linux-debian/
 
 ## To compile:
->make clean
+>make clean<br>
 >make
 
 or
@@ -72,10 +72,16 @@ https://sourceforge.net/projects/globalplatform/files/zLib/
 
 
 ### Options:
-*  --h, --help                          show this help message and exit
-*  --t, --threads numthreads            number of threads for openmp library
-*  --s, --sample samplefoldername       path to set of samples sequences
-*  --o, --output folder                 folder name for the output files
+```
+--h, --help                          
+            show this help message and exit
+--t, --threads 
+            numthreads (number of threads for openmp library)
+--s, --sample 
+            a space delimited text file with sample name in first column and filepath to fasta file in second column
+--o, --output folder
+            folder name for the output files
+```
 
 ### Example:
 ./bugmat -t 8 -s fastas/file_fastas.txt -o fastas
@@ -103,14 +109,14 @@ read files process: problem with file (id: p_nose, path: nose_p.fasta)
 
 ```
 
-### output files
-Three output files are produced.
+### Output files
+Three output files are produced:
 
-* alignment_samples.fa  
+* alignment_samples.fa<br>
 This is a fasta file in which only variant bases are included.
 
-* bugmat_snp.txt
-The reports the pairwise SNP distances between all sequences analysed.
+* bugmat_snp.txt<br>
+This reports the pairwise SNP distances between all sequences analysed.
 
-* bugmat_count_bases.txt
+* bugmat_count_bases.txt<br>
 This is a text representation of the model used by the software to represent the positions of variation.
